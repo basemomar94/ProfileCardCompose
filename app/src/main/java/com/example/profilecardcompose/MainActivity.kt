@@ -38,7 +38,7 @@ fun MainScreen() {
 
 @Composable
 fun ProfileCard() {
-    Card(elevation = 8.dp) {
+    Card(elevation = 8.dp, backgroundColor = Color.Green, modifier = Modifier.wrapContentSize()) {
         Row(
             modifier = Modifier.fillMaxWidth().wrapContentHeight(align = Alignment.Top)
                 .padding(8.dp)
