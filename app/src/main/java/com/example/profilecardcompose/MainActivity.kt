@@ -18,12 +18,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.profilecardcompose.ui.theme.ProfileCardComposeTheme
+import com.example.profilecardcompose.ui.theme.teal
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MainScreen()
+            ProfileCardComposeTheme {
+                MainScreen()
+            }
         }
     }
 }
@@ -31,17 +34,25 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen() {
-    Surface(modifier = Modifier.fillMaxSize(), color = Color.Gray) {
+    Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.teal) {
+
         ProfileCard()
     }
 }
 
 @Composable
 fun ProfileCard() {
-    Card(elevation = 8.dp) {
+    Card(
+        elevation = 8.dp,
+        modifier = Modifier
+            .wrapContentHeight()
+            .fillMaxWidth()
+    ) {
         Row(
-            modifier = Modifier.fillMaxWidth().wrapContentHeight(align = Alignment.Top)
-                .padding(8.dp)
+            modifier = Modifier
+                .height(60.dp)
+                .width(250.dp)
+                .padding(8.dp).wrapContentWidth()
         ) {
             ProfilePhoto()
             Spacer(modifier = Modifier.width(8.dp))
@@ -54,9 +65,8 @@ fun ProfileCard() {
 @Composable
 fun ProfilePhoto() {
     Card(
-        shape = CircleShape,
-        border = BorderStroke(width = 2.dp, color = Color.Green),
-        elevation = 8.dp
+        elevation = 8.dp,
+        modifier = Modifier.wrapContentWidth()
     ) {
         Image(
             painter = painterResource(id = R.drawable.profile_bassem),
