@@ -6,8 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -34,37 +38,71 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen() {
-    Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.teal) {
 
-        ProfileCard()
-    }
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.teal) {
+            Column() {
+                val user1 = User("bassem","active",R.drawable.profile_bassem)
+                val user2 = User("hadeer","away",R.drawable.profile_bassem)
+                val user3 = User("Ronlado","active",R.drawable.profile_bassem)
+                val user4 = User("Radwa","away",R.drawable.profile_bassem)
+                val user5 = User("Hany","active",R.drawable.profile_bassem)
+                val user6 = User("hadeer","away",R.drawable.profile_bassem)
+                val userList = listOf(user1,user2,user3,user4,user5,user6)
+                LazyColumn{
+                   items(items = userList, itemContent = {user->
+                       ProfileCard(user = user)
+                       
+                   })
+
+                }
+            }
+
+        }
+
+
 }
 
 @Composable
-fun ProfileCard() {
+fun AppBar() {
+    TopAppBar(navigationIcon = {
+        Icon(
+            imageVector = Icons.Default.Home,
+            contentDescription = "",
+            modifier = Modifier.padding(8.dp)
+        )
+    }, title = {
+        Text(
+            text = "card app"
+        )
+    })
+}
+
+@Composable
+fun ProfileCard(user: User) {
     Card(elevation = 8.dp, backgroundColor = Color.Green, modifier = Modifier.wrapContentSize()) {
         Row(
             modifier = Modifier
                 .height(60.dp)
                 .width(250.dp)
-                .padding(8.dp).wrapContentWidth()
+                .padding(8.dp)
+                .wrapContentWidth()
         ) {
-            ProfilePhoto()
+            ProfilePhoto(user)
             Spacer(modifier = Modifier.width(8.dp))
-            ProfileContent()
+            ProfileContent(user)
         }
     }
 
 }
 
 @Composable
-fun ProfilePhoto() {
+fun ProfilePhoto(user: User) {
     Card(
         elevation = 8.dp,
         modifier = Modifier.wrapContentWidth()
     ) {
         Image(
-            painter = painterResource(id = R.drawable.profile_bassem),
+            painter = painterResource(id = user.image),
             contentDescription = "",
             modifier = Modifier.size(72.dp)
         )
@@ -73,11 +111,11 @@ fun ProfilePhoto() {
 }
 
 @Composable
-fun ProfileContent() {
+fun ProfileContent(user: User) {
     Column() {
-        Text("Bassem Omar", style = MaterialTheme.typography.body1)
+        Text(user.name, style = MaterialTheme.typography.body1)
         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
-            Text("Active Now", style = MaterialTheme.typography.body2)
+            Text(user.status, style = MaterialTheme.typography.body2)
 
         }
     }
